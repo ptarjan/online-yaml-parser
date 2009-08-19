@@ -1,0 +1,15 @@
+application: yaml-online-parser
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /js
+  static_dir: js
+
+#- url: /examples
+#  static_dir: examples
+#  mime_type: text/plain
+
+- url: .*
+  script: main.py

@@ -1,0 +1,126 @@
+<!DOCTYPE html !>
+<html>
+    <head>
+        <title>Online YAML Parser</title>
+        <style>
+body {
+    text-align : center;
+}
+form {
+    width: 800px;
+    height: 600px;
+    float: left;
+}
+.yaml {
+    width : 100%;
+    height : 90%;
+}
+.content {
+    margin : 20px 30px;
+}
+.code_float {
+    float : left;
+    /*
+    left : 50%;
+    position : relative;
+    */
+}
+.code {
+    padding : 30px;
+    background : #F8F8FF;
+    border : 1px solid #DEDEDE;
+    font-family : 'Bitstream Vera Sans Mono','Courier',monospace;
+    margin : 20px auto;
+    /*
+    float : left;
+    left : -50%;
+    position : relative;
+    */
+    text-align : left;
+}
+.help {
+    text-align : right;
+}
+.examples {
+    float : right;
+    text-align : left;
+    padding : 20px;
+    background : #EDF5FA;
+    border : 1px solid #DEDEDE;
+}
+h1, h2 {
+    margin : 0px;
+}
+.header, .footer {
+    text-align : center;
+}
+.clear {
+    clear : both;
+}
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <form method="POST" action="/">
+            <div class="header">
+                <h1>Online <a href="http://yaml.org">YAML</a> Parser</h1>
+            </div>
+                <textarea class="yaml" name="yaml">{{ yaml }}</textarea>
+                <div>
+                    <input type="submit" value="Convert YAML" />
+                    to
+                    <input type="radio" name="type" id="type_json" value="json"
+                    {% ifequal type "json" %}checked="checked"{% endifequal %}
+                    /><label for="type_json">json</label>
+                    <input type="radio" name="type" id="type_python" value="python" 
+                    {% ifequal type "python" %}checked="checked"{% endifequal %}
+                    /><label for="type_python">python</label>
+                    |
+                    <span class="help">
+                        Press Control+Enter to submit
+                    </span>
+                </div>
+            </form>
+            <div class="examples">
+                <h2>Examples from <a href="http://www.yaml.org/spec/1.2/spec.html">YAML</a></h2>
+                <ol>
+                {% for example in examples %}
+                    <li><a href="?yaml={{ example|urlencode }}">{{ example|slice:"30"|escape }}...</a></li>
+                {% endfor %}
+                </ol>
+            </div>
+            <div class="clear">
+            <div class="code_float">
+                <div class="code">
+                    <pre>{{ output|escape }}</pre>
+                </div>
+            </div>
+            <div class="clear">
+            <div class="footer">
+                Using <a href="http://pyyaml.org">pyyaml</a>. Created by <a href="http://paulisageek.com">Paul Tarjan</a>
+            </div>
+        </div>
+
+<script src="js/jquery-1.3.2.min.js"></script>
+<script src="js/jquery.hotkeys-0.7.9.min.js"></script>
+<script>
+var submit = function() {
+    $("form").submit();
+}
+$(document).bind("keydown", "Ctrl+return", submit);
+$(document).bind("keydown", "Alt+return", submit);
+$(document).bind("keydown", "Shift+return", submit);
+</script>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-149816-8");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+    </body>
+</html>
