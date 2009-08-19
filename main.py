@@ -39,10 +39,12 @@ class MainHandler(webapp.RequestHandler):
         type = self.request.get("type", "json")
         try :
             objects = yaml.load(y)
-            if type == "json" :
-                output = simplejson.dumps(objects, cls=DjangoJSONEncoder, indent=2)
-            elif type == "python" :
+            if type == "python" :
                 output = str(objects)
+            elif type == "canonical_yaml" :
+                output = yaml.dump(objects, canonical=True)
+            else : # type == "json"
+                output = simplejson.dumps(objects, cls=DjangoJSONEncoder, indent=2)
         except Exception, why :
             output = "ERROR:\n\n" + str(why)
 
@@ -57,8 +59,15 @@ class MainHandler(webapp.RequestHandler):
     def post(self) :
         return self.get()
 
+class FaviconHandler(webapp.RequestHandler):
+    def get(self) :
+        self.redirect("http://pyyaml.org/favicon.ico")
+        
 def main():
-  application = webapp.WSGIApplication([('/', MainHandler)],
+  application = webapp.WSGIApplication([
+                                        ('/', MainHandler),
+                                        ('/favicon.ico', FaviconHandler),
+                                       ],
                                        debug=True)
   wsgiref.handlers.CGIHandler().run(application)
 
