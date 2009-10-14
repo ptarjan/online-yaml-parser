@@ -7,49 +7,46 @@ body {
     text-align : center;
 }
 form {
-    width: 800px;
-    height: 600px;
-    float: left;
+    float : left;
+    width : 500px;
 }
-.yaml {
+#yaml {
     width : 100%;
-    height : 90%;
+    height : 600px;
 }
 .content {
-    margin : 20px 30px;
-}
-.code_float {
-    float : left;
-    /*
-    left : 50%;
-    position : relative;
-    */
+    margin : 10px auto;
+    width : 1024px;
 }
 .code {
     padding : 30px;
-    background : #F8F8FF;
     border : 1px solid #DEDEDE;
     font-family : 'Bitstream Vera Sans Mono','Courier',monospace;
-    margin : 20px auto;
+    margin : 0px auto 20px;
+    width: 400px;
+    float : right;
     /*
     float : left;
     left : -50%;
     position : relative;
     */
     text-align : left;
+    overflow-x : auto;
 }
 .help {
-    text-align : right;
 }
 .examples {
     float : right;
     text-align : left;
     padding : 20px;
-    background : #EDF5FA;
     border : 1px solid #DEDEDE;
 }
 h1, h2 {
     margin : 0px;
+}
+h1 {
+    border-bottom : #AAA solid 1px;
+    margin-bottom : 5px;
 }
 .header, .footer {
     text-align : center;
@@ -57,15 +54,20 @@ h1, h2 {
 .clear {
     clear : both;
 }
+#examples_list {
+}
+a:visited {
+    color : blue;
+}
         </style>
     </head>
     <body>
         <div class="content">
-            <form method="POST" action="/">
             <div class="header">
                 <h1>Online <a href="http://yaml.org">YAML</a> Parser</h1>
             </div>
-                <textarea class="yaml" name="yaml">{{ yaml }}</textarea>
+            <form method="POST" action="/">
+                <textarea id="yaml" class="yaml" name="yaml">{{ yaml }}</textarea>
                 <div>
                     <input type="submit" value="Convert YAML" />
                     to
@@ -78,25 +80,21 @@ h1, h2 {
                     <input type="radio" name="type" id="type_canonical_yaml" value="canonical_yaml" 
                     {% ifequal type "canonical_yaml" %}checked="checked"{% endifequal %}
                     /><label for="type_canonical_yaml">canonical yaml</label>
-                    |
-                    <span class="help">
+                    <div class="help">
                         Press Control+Enter to submit
-                    </span>
+                    </div>
                 </div>
             </form>
+            <div class="code">
+                <pre id="output">{{ output|escape }}</pre>
+            </div>
             <div class="examples">
-                <h2>Examples from <a href="http://www.yaml.org/spec/1.2/spec.html">YAML</a></h2>
-                <ol>
+                <h2>Examples</h2>
+                <ol id="examples_list">
                 {% for example in examples %}
                     <li><a href="?yaml={{ example|urlencode }}">{{ example|slice:"30"|escape }}...</a></li>
                 {% endfor %}
                 </ol>
-            </div>
-            <div class="clear">
-            <div class="code_float">
-                <div class="code">
-                    <pre>{{ output|escape }}</pre>
-                </div>
             </div>
             <div class="clear">
             <div class="footer">
@@ -106,13 +104,43 @@ h1, h2 {
 
 <script src="js/jquery-1.3.2.min.js"></script>
 <script src="js/jquery.hotkeys-0.7.9.min.js"></script>
+<script src="js/urldecode.js"></script>
 <script>
+$(function() {
+
 var submit = function() {
     $("form").submit();
+    return false;
 }
 $(document).bind("keydown", "Ctrl+return", submit);
 $(document).bind("keydown", "Alt+return", submit);
 $(document).bind("keydown", "Shift+return", submit);
+$('input').change(function() {
+    $("form").submit();
+});
+
+$("form").submit(function(ev) {
+    $("#output").animate({
+        "opacity" : 0
+    }, "fast");
+    $.getJSON("/ajax?callback=?", {yaml: $("#yaml").val(), type: $('input:radio[name=type]:checked').val() }, function(data) {
+        $("#output").text(data);
+        $("#output").animate({
+            "opacity" : 100
+        }, "fast");
+    })
+    return false;
+});
+
+$("#examples_list a").click(function() {
+    $("#yaml").val(
+        urldecode($(this).attr("href").replace("?yaml=", ""))
+    );
+    $("form").submit();
+    return false;
+});
+
+});
 </script>
 
 <script type="text/javascript">

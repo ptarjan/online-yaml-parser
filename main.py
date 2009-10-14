@@ -31,23 +31,25 @@ prefix = os.path.join(os.path.dirname(__file__), "examples")
 for ex in sorted(os.listdir(prefix)) :
     examples.append(file(os.path.join(prefix, ex)).read())
 
+def getOutput(y, type) :
+    try :
+        objects = yaml.load(y)
+        if type == "python" :
+            return str(objects)
+        elif type == "canonical_yaml" :
+            return yaml.dump(objects, canonical=True)
+        else : # type == "json"
+            return simplejson.dumps(objects, cls=DjangoJSONEncoder, indent=2)
+    except Exception, why :
+        return "ERROR:\n\n" + str(why)
+
 class MainHandler(webapp.RequestHandler):
     def get(self):
-        template_values = {}
         y = self.request.get("yaml")
-
         type = self.request.get("type", "json")
-        try :
-            objects = yaml.load(y)
-            if type == "python" :
-                output = str(objects)
-            elif type == "canonical_yaml" :
-                output = yaml.dump(objects, canonical=True)
-            else : # type == "json"
-                output = simplejson.dumps(objects, cls=DjangoJSONEncoder, indent=2)
-        except Exception, why :
-            output = "ERROR:\n\n" + str(why)
+        output = getOutput(y, type)
 
+        template_values = {}
         template_values['output'] = output
         template_values['yaml'] = y
         template_values['examples'] = examples
@@ -59,6 +61,23 @@ class MainHandler(webapp.RequestHandler):
     def post(self) :
         return self.get()
 
+class AjaxHandler(webapp.RequestHandler):
+    def get(self):
+        y = self.request.get("yaml")
+        type = self.request.get("type", "json")
+        output = getOutput(y, type)
+        
+        response = simplejson.dumps(output)
+        cb = self.request.get("callback")
+        if cb :
+            response = cb + "(" + response + ")"
+
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(response)
+
+    def post(self) :
+        return self.get()
+
 class FaviconHandler(webapp.RequestHandler):
     def get(self) :
         self.redirect("http://pyyaml.org/favicon.ico")
@@ -66,6 +85,7 @@ class FaviconHandler(webapp.RequestHandler):
 def main():
   application = webapp.WSGIApplication([
                                         ('/', MainHandler),
+                                        ('/ajax', AjaxHandler),
                                         ('/favicon.ico', FaviconHandler),
                                        ],
                                        debug=True)
