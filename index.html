@@ -13,6 +13,9 @@ form {
 #yaml {
     width : 100%;
     height : 600px;
+    border : 1px solid #AAA;
+    padding : 5px;
+    margin-bottom : 10px;
 }
 .content {
     margin : 10px auto;
@@ -23,13 +26,18 @@ form {
     overflow-x : auto;
 }
 .help {
+    background : #D6D6D6;
+    margin : 5px;
+    padding : 5px;
+}
+#right {
+    float : right;
 }
 .examples, .code {
-    float : right;
     text-align : left;
     padding : 30px;
     margin : 0px auto 20px;
-    border : 1px solid #DEDEDE;
+    border : 1px solid #AAA;
     width : 420px;
 }
 h1, h2 {
@@ -37,7 +45,7 @@ h1, h2 {
 }
 h1 {
     border-bottom : #AAA solid 1px;
-    margin-bottom : 5px;
+    margin-bottom : 10px;
 }
 .header, .footer {
     text-align : center;
@@ -45,10 +53,8 @@ h1 {
 .clear {
     clear : both;
 }
-#examples_list {
-}
-a:visited {
-    color : blue;
+a:visited, a, a:hover {
+    color : #007;
 }
         </style>
     </head>
@@ -72,20 +78,22 @@ a:visited {
                     {% ifequal type "canonical_yaml" %}checked="checked"{% endifequal %}
                     /><label for="type_canonical_yaml">canonical yaml</label>
                     <div class="help">
-                        Press Control+Enter to submit
+                        <b>Shortcut</b> : Press Control+Enter to parse
                     </div>
                 </div>
             </form>
-            <div class="code">
-                <pre id="output">{{ output|escape }}</pre>
-            </div>
-            <div class="examples">
-                <h2>Examples from <a href="http://www.yaml.org/spec/1.2/spec.html" target="_new">YAML 1.2 Spec</a></h2>
-                <ol id="examples_list">
-                {% for example in examples %}
-                    <li><a href="?yaml={{ example|urlencode }}">{{ example|slice:"40"|escape }}...</a></li>
-                {% endfor %}
-                </ol>
+            <div id="right">
+                <div class="code">
+                    <pre id="output">{{ output|escape }}</pre>
+                </div>
+                <div class="examples">
+                    <h2>Examples from <a href="http://www.yaml.org/spec/1.2/spec.html" target="_new">YAML 1.2 Spec</a></h2>
+                    <ol id="examples_list">
+                    {% for example in examples %}
+                        <li><a href="?yaml={{ example|urlencode }}">{{ example|slice:"40"|escape }}...</a></li>
+                    {% endfor %}
+                    </ol>
+                </div>
             </div>
             <div class="clear">
             <div class="footer">
