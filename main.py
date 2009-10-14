@@ -19,6 +19,7 @@ import os
 
 import yaml
 import simplejson
+import pprint
 
 import wsgiref.handlers
 from django_jsonencoder import DjangoJSONEncoder
@@ -35,7 +36,7 @@ def getOutput(y, type) :
     try :
         objects = yaml.load(y)
         if type == "python" :
-            return str(objects)
+            return pprint.pformat(objects)
         elif type == "canonical_yaml" :
             return yaml.dump(objects, canonical=True)
         else : # type == "json"
