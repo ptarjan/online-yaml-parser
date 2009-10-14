@@ -21,10 +21,10 @@ form {
     margin : 10px auto;
     width : 1000px;
 }
-.code {
+#output {
     overflow-x : auto;
 }
-.code, .yaml {
+#output, #yaml {
     font-family : monospace;
 }
 .help {
@@ -92,6 +92,7 @@ a:hover {
             </form>
             <div id="right">
                 <div class="code">
+                    <h2>Output</h2>
                     <pre id="output">{{ output|escape }}</pre>
                 </div>
                 <div class="examples">

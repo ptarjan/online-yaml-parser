@@ -32,6 +32,13 @@ prefix = os.path.join(os.path.dirname(__file__), "examples")
 for ex in sorted(os.listdir(prefix)) :
     examples.append(file(os.path.join(prefix, ex)).read())
 
+default_yaml = """
+- just: write some
+- yaml: 
+  - [here, and]
+  - {then: press, control: enter}
+"""
+
 def getOutput(y, type) :
     try :
         objects = yaml.load(y)
@@ -46,7 +53,7 @@ def getOutput(y, type) :
 
 class MainHandler(webapp.RequestHandler):
     def get(self):
-        y = self.request.get("yaml")
+        y = self.request.get("yaml", default_yaml)
         type = self.request.get("type", "json")
         output = getOutput(y, type)
 
