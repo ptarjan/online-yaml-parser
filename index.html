@@ -131,12 +131,26 @@ $("form").submit(function(ev) {
     $("#output").animate({
         "opacity" : 0
     }, "fast");
-    $.getJSON("/ajax?callback=?", {yaml: $("#yaml").val(), type: $('input:radio[name=type]:checked').val() }, function(data) {
-        $("#output").text(data);
-        $("#output").animate({
-            "opacity" : 100
-        }, "fast");
-    })
+    $.ajax({
+        url: "/ajax?callback=?", 
+        data: {yaml: $("#yaml").val(), type: $('input:radio[name=type]:checked').val() }, 
+        success: 
+            function(data) {
+                $("#output").text(data);
+                $("#output").animate({
+                    "opacity" : 100
+                }, "fast");
+            },
+        error: 
+            function() {
+                $("#output").text("An error occured. Try again? Or contact me.");
+                $("#output").animate({
+                    "opacity" : 100
+                }, "fast");
+            },
+        type: "POST",
+        dataType: "json",
+    });
     return false;
 });
 
