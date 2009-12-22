@@ -88,8 +88,8 @@ a:hover {
                     <div class="help">
                         <b>Shortcut</b> : Press Control+Enter to parse
                     </div>
-                    <a id="link" href="?yaml={{ yaml|urlencode }}">
-                        Link to this YAML
+                    <a id="link" href="?yaml={{ yaml|urlencode }}&type={{ type|urlencode }}">
+                        Link to this page
                     </a>
                 </div>
             </form>
@@ -135,16 +135,17 @@ $("form").submit(function(ev) {
     $("#output").animate({
         "opacity" : 0
     }, "fast");
+    var inputData = {yaml: $("#yaml").val(), type: $('input:radio[name=type]:checked').val() };
     $.ajax({
         url: "/ajax?callback=?", 
-        data: {yaml: $("#yaml").val(), type: $('input:radio[name=type]:checked').val() }, 
+        data: inputData,
         success: 
             function(data) {
                 $("#output").text(data);
                 $("#output").animate({
                     "opacity" : 100
                 }, "fast");
-                $("#link").attr("href", "?" + $.param({"yaml": $("#yaml").val()}));
+                $("#link").attr("href", "?" + $.param(inputData));
             },
         error: 
             function() {
