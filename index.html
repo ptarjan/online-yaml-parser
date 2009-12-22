@@ -12,8 +12,8 @@ form {
 }
 #yaml {
     width : 100%;
-    height : 600px;
     border : 1px solid #AAA;
+    min-height: 600px;
     padding : 5px;
     margin-bottom : 10px;
 }
@@ -116,6 +116,7 @@ a:hover {
 <script src="js/jquery-1.3.2.min.js"></script>
 <script src="js/jquery.hotkeys-0.7.9.min.js"></script>
 <script src="js/urldecode.js"></script>
+<script src="js/autoresize.jquery.min.js"></script>
 <script>
 $(function() {
 
@@ -165,6 +166,21 @@ $("#examples_list a").click(function() {
     $("form").submit();
     return false;
 });
+
+$('textarea#yaml').autoResize({
+    // On resize:
+    onResize : function() {
+        $(this).css({opacity:0.8});
+    },
+    // After resize:
+    animateCallback : function() {
+        $(this).css({opacity:1});
+    },
+    // Quite slow animation:
+    animateDuration : 300,
+    // More extra space:
+    extraSpace : 40
+}).keydown();
 
 });
 </script>
