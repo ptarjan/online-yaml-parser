@@ -88,6 +88,9 @@ a:hover {
                     <div class="help">
                         <b>Shortcut</b> : Press Control+Enter to parse
                     </div>
+                    <a id="link" href="?yaml={{ yaml|urlencode }}">
+                        Link to this YAML
+                    </a>
                 </div>
             </form>
             <div id="right">
@@ -140,6 +143,7 @@ $("form").submit(function(ev) {
                 $("#output").animate({
                     "opacity" : 100
                 }, "fast");
+                $("#link").attr("href", "?" + $.param({"yaml": $("#yaml").val()}));
             },
         error: 
             function() {
