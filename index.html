@@ -13,7 +13,7 @@ form {
 #yaml {
   width : 100%;
   border : 1px solid #AAA;
-  min-height: 600px;
+  min-height: 350px;
   padding : 5px;
   margin-bottom : 10px;
 }
@@ -67,6 +67,9 @@ a {
 a:hover {
   text-decoration: underline;
 }
+#pay_my_bills {
+  margin-top: 10px;
+}
     </style>
   </head>
   <body>
@@ -92,23 +95,25 @@ a:hover {
             Link to this page
           </a>
         </div>
+        <div id="pay_my_bills">
+          <script type="text/javascript"><!--
+            google_ad_client = "ca-pub-7342863608664054";
+            /* online yaml parser banner */
+            google_ad_slot = "1929248609";
+            google_ad_width = 468;
+            google_ad_height = 60;
+            //-->
+          </script>
+          <script type="text/javascript"
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+          </script>
+        </div>
       </form>
       <div id="right">
         <div class="code">
           <h2>Output</h2>
           <pre id="output">{{ output|escape }}</pre>
         </div>
-        <script type="text/javascript"><!--
-          google_ad_client = "ca-pub-7342863608664054";
-          /* online yaml parser banner */
-          google_ad_slot = "1929248609";
-          google_ad_width = 468;
-          google_ad_height = 60;
-          //-->
-        </script>
-        <script type="text/javascript"
-          src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-        </script>
         <div class="examples">
           <h2>Examples from <a href="http://www.yaml.org/spec/1.2/spec.html" target="_new">YAML 1.2 Spec</a></h2>
           <ol id="examples_list">
