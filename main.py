@@ -36,7 +36,7 @@ default_yaml = """
 - just: write some
 - yaml: 
   - [here, and]
-  - {then: press, control: enter}
+  - {it: updates, in: real-time}
 """
 
 def getOutput(y, type) :

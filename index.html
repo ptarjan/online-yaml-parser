@@ -1,186 +1,181 @@
 <!DOCTYPE html !>
 <html>
-    <head>
-        <title>Online YAML Parser</title>
-        <style>
+  <head>
+    <title>Online YAML Parser</title>
+    <style>
 body {
-    text-align : center;
+  text-align : center;
 }
 form {
-    float : left;
-    width : 500px;
+  float : left;
+  width : 500px;
 }
 #yaml {
-    width : 100%;
-    border : 1px solid #AAA;
-    min-height: 600px;
-    padding : 5px;
-    margin-bottom : 10px;
+  width : 100%;
+  border : 1px solid #AAA;
+  min-height: 600px;
+  padding : 5px;
+  margin-bottom : 10px;
 }
 .content {
-    margin : 10px auto;
-    width : 1000px;
+  margin : 10px auto;
+  width : 1000px;
 }
 #output {
-    overflow-x : auto;
+  overflow-x : auto;
 }
 #output, #yaml {
-    font-family : monospace;
+  font-family : monospace;
 }
 .help {
-    background : #D6D6D6;
-    margin : 5px;
-    padding : 5px;
+  background : #D6D6D6;
+  margin : 5px;
+  padding : 5px;
 }
 #right {
-    float : right;
+  float : right;
 }
 .examples, .code {
-    text-align : left;
-    padding : 30px;
-    margin : 0px auto 20px;
-    border : 1px solid #AAA;
-    width : 420px;
+  text-align : left;
+  padding : 30px;
+  margin : 0px auto 20px;
+  border : 1px solid #AAA;
+  width : 420px;
 }
 h1, h2 {
-    margin : 0px;
+  margin : 0px;
 }
 h1 {
-    border-bottom : #AAA solid 1px;
-    margin-bottom : 10px;
+  border-bottom : #AAA solid 1px;
+  margin-bottom : 10px;
 }
 .header, .footer {
-    text-align : center;
+  text-align : center;
 }
 .clear {
-    clear : both;
+  clear : both;
 }
 a:visited, a, a:hover {
-    color : #00c;
+  color : #00c;
 }
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
-        </style>
-    </head>
-    <body>
-        <div class="content">
-            <div class="header">
-                <h1>Online <a href="http://yaml.org" target="_new">YAML</a> Parser</h1>
-            </div>
-            <form method="POST" action="/">
-                <textarea id="yaml" class="yaml" name="yaml">{{ yaml }}</textarea>
-                <div>
-                    <input type="submit" value="Convert YAML" />
-                    to
-                    <input type="radio" name="type" id="type_json" value="json"
-                    {% ifequal type "json" %}checked="checked"{% endifequal %}
-                    /><label for="type_json">json</label>
-                    <input type="radio" name="type" id="type_python" value="python" 
-                    {% ifequal type "python" %}checked="checked"{% endifequal %}
-                    /><label for="type_python">python</label>
-                    <input type="radio" name="type" id="type_canonical_yaml" value="canonical_yaml" 
-                    {% ifequal type "canonical_yaml" %}checked="checked"{% endifequal %}
-                    /><label for="type_canonical_yaml">canonical yaml</label>
-                    <div class="help">
-                        <b>Shortcut</b> : Press Control+Enter to parse
-                    </div>
-                    <a id="link" href="?yaml={{ yaml|urlencode }}&type={{ type|urlencode }}">
-                        Link to this page
-                    </a>
-                </div>
-            </form>
-            <div id="right">
-                <div class="code">
-                    <h2>Output</h2>
-                    <pre id="output">{{ output|escape }}</pre>
-                </div>
-                <div class="examples">
-                    <h2>Examples from <a href="http://www.yaml.org/spec/1.2/spec.html" target="_new">YAML 1.2 Spec</a></h2>
-                    <ol id="examples_list">
-                    {% for example in examples %}
-                        <li><a href="?yaml={{ example|urlencode }}">{{ example|slice:"40"|escape }}...</a></li>
-                    {% endfor %}
-                    </ol>
-                </div>
-            </div>
-            <div class="clear">
-            <div class="footer">
-                Using <a href="http://pyyaml.org">pyyaml</a>. Created by <a href="http://paulisageek.com">Paul Tarjan</a>. <a href="http://github.com/ptarjan/online-yaml-parser/tree/master">Open source</a>.
-            </div>
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div class="header">
+        <h1>Online <a href="http://yaml.org" target="_new">YAML</a> Parser</h1>
+      </div>
+      <form method="POST" action="/">
+        <textarea id="yaml" class="yaml" name="yaml">{{ yaml }}</textarea>
+        <div>
+          <input type="submit" value="Convert YAML" />
+          to
+          <input type="radio" name="type" id="type_json" value="json"
+          {% ifequal type "json" %}checked="checked"{% endifequal %}
+          /><label for="type_json">json</label>
+          <input type="radio" name="type" id="type_python" value="python" 
+          {% ifequal type "python" %}checked="checked"{% endifequal %}
+          /><label for="type_python">python</label>
+          <input type="radio" name="type" id="type_canonical_yaml" value="canonical_yaml" 
+          {% ifequal type "canonical_yaml" %}checked="checked"{% endifequal %}
+          /><label for="type_canonical_yaml">canonical yaml</label>
+          <a id="link" href="?yaml={{ yaml|urlencode }}&type={{ type|urlencode }}">
+            Link to this page
+          </a>
         </div>
+      </form>
+      <div id="right">
+        <div class="code">
+          <h2>Output</h2>
+          <pre id="output">{{ output|escape }}</pre>
+        </div>
+        <script type="text/javascript"><!--
+          google_ad_client = "ca-pub-7342863608664054";
+          /* online yaml parser banner */
+          google_ad_slot = "1929248609";
+          google_ad_width = 468;
+          google_ad_height = 60;
+          //-->
+        </script>
+        <script type="text/javascript"
+          src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+        <div class="examples">
+          <h2>Examples from <a href="http://www.yaml.org/spec/1.2/spec.html" target="_new">YAML 1.2 Spec</a></h2>
+          <ol id="examples_list">
+          {% for example in examples %}
+            <li><a href="?yaml={{ example|urlencode }}">{{ example|slice:"40"|escape }}...</a></li>
+          {% endfor %}
+          </ol>
+        </div>
+      </div>
+      <div class="clear">
+      <div class="footer">
+        Using <a href="http://pyyaml.org">pyyaml</a>. Created by <a href="http://paulisageek.com">Paul Tarjan</a>. <a href="http://github.com/ptarjan/online-yaml-parser/tree/master">Open source</a>.
+      </div>
+    </div>
 
-<script src="js/jquery-1.3.2.min.js"></script>
-<script src="js/jquery.hotkeys-0.7.9.min.js"></script>
+<script src="js/jquery-1.6.1.min.js"></script>
 <script src="js/urldecode.js"></script>
 <script src="js/autoresize.jquery.min.js"></script>
 <script>
 $(function() {
 
 var submit = function() {
-    $("form").submit();
-    return false;
+  $("form").submit();
+  return false;
 }
-$(document).bind("keydown", "Ctrl+return", submit);
-$(document).bind("keydown", "Alt+return", submit);
-$(document).bind("keydown", "Shift+return", submit);
-$('input').change(function() {
-    $("form").submit();
+$('#yaml').keyup(function() {
+  $("form").submit();
 });
 
 $("form").submit(function(ev) {
-    $("#output").animate({
-        "opacity" : 0
-    }, "fast");
-    var inputData = {yaml: $("#yaml").val(), type: $('input:radio[name=type]:checked').val() };
-    $.ajax({
-        url: "/ajax?callback=?", 
-        data: inputData,
-        success: 
-            function(data) {
-                $("#output").text(data);
-                $("#output").animate({
-                    "opacity" : 100
-                }, "fast");
-                $("#link").attr("href", "?" + $.param(inputData));
-            },
-        error: 
-            function() {
-                $("#output").text("An error occured. Try again? Or contact me.");
-                $("#output").animate({
-                    "opacity" : 100
-                }, "fast");
-            },
-        type: "POST",
-        dataType: "json",
-    });
-    return false;
+  var inputData = {yaml: $("#yaml").val(), type: $('input:radio[name=type]:checked').val() };
+  $.ajax({
+    url: "/ajax?callback=?", 
+    data: inputData,
+    success: 
+      function(data) {
+        $("#output").text(data);
+        $("#link").attr("href", "?" + $.param(inputData));
+      },
+    error: 
+      function() {
+        $("#output").text("An error occured. Try again? Or contact me.");
+      },
+    type: "POST",
+    dataType: "json",
+  });
+  return false;
 });
 
 $("#examples_list a").click(function() {
-    $("#yaml").val(
-        urldecode($(this).attr("href").replace("?yaml=", ""))
-    );
-    $("form").submit();
-    return false;
+  $("#yaml").val(
+    urldecode($(this).attr("href").replace("?yaml=", ""))
+  );
+  $("form").submit();
+  return false;
 });
 
 $('textarea#yaml').autoResize({
-    // On resize:
-    onResize : function() {
-        $(this).css({opacity:0.8});
-    },
-    // After resize:
-    animateCallback : function() {
-        $(this).css({opacity:1});
-    },
-    // Quite slow animation:
-    animateDuration : 300,
-    // More extra space:
-    extraSpace : 40
+  // On resize:
+  onResize : function() {
+    $(this).css({opacity:0.8});
+  },
+  // After resize:
+  animateCallback : function() {
+    $(this).css({opacity:1});
+  },
+  // Quite slow animation:
+  animateDuration : 300,
+  // More extra space:
+  extraSpace : 40
 }).keydown();
 
 });
@@ -196,5 +191,20 @@ var pageTracker = _gat._getTracker("UA-149816-8");
 pageTracker._trackPageview();
 } catch(err) {}</script>
 
-    </body>
+
+<!-- Start of Woopra Code -->
+<script type="text/javascript">
+  var woo_settings = {idle_timeout:'300000', domain:'yaml-online-parser.appspot.com'};
+  (function(){
+    var wsc = document.createElement('script');
+    wsc.src = document.location.protocol+'//static.woopra.com/js/woopra.js';
+    wsc.type = 'text/javascript';
+    wsc.async = true;
+    var ssc = document.getElementsByTagName('script')[0];
+    ssc.parentNode.insertBefore(wsc, ssc);
+  })();
+</script>
+<!-- End of Woopra Code -->
+
+  </body>
 </html>
