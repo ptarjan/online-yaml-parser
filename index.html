@@ -80,8 +80,7 @@ a:hover {
       <form method="POST" action="/">
         <textarea id="yaml" class="yaml" name="yaml">{{ yaml }}</textarea>
         <div>
-          <input type="submit" value="Convert YAML" />
-          to
+          Output:
           <input type="radio" name="type" id="type_json" value="json"
           {% ifequal type "json" %}checked="checked"{% endifequal %}
           /><label for="type_json">json</label>
@@ -140,6 +139,9 @@ var submit = function() {
   return false;
 }
 $('#yaml').keyup(function() {
+  $("form").submit();
+});
+$('input:radio[name=type]').click(function() {
   $("form").submit();
 });
 
