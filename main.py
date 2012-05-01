@@ -41,7 +41,7 @@ default_yaml = """
 
 def getOutput(y, type) :
     try :
-        objects = yaml.load(y)
+        objects = yaml.safe_load(y)
         if type == "python" :
             return pprint.pformat(objects)
         elif type == "canonical_yaml" :
