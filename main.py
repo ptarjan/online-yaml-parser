@@ -20,6 +20,7 @@ import os
 import yaml
 import simplejson
 import pprint
+import urllib2
 
 import wsgiref.handlers
 from django_jsonencoder import DjangoJSONEncoder
@@ -54,14 +55,21 @@ def getOutput(y, type) :
 class MainHandler(webapp.RequestHandler):
     def get(self):
         y = self.request.get("yaml", default_yaml)
+        url = self.request.get("url")
+        if url:
+            try:
+                y = urllib2.urlopen(url).read()
+            except Exception:
+                pass
         type = self.request.get("type", "json")
+        
         output = getOutput(y, type)
-
         template_values = {}
         template_values['output'] = output
         template_values['yaml'] = y
         template_values['examples'] = examples
         template_values['type'] = type
+        template_values['url'] = url
 
         path = os.path.join(os.path.dirname(__file__), 'index.html')
         self.response.out.write(template.render(path, template_values))
