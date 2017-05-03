@@ -25,8 +25,9 @@ import urllib2
 import wsgiref.handlers
 from django_jsonencoder import DjangoJSONEncoder
 
-from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+
+import webapp2
 
 examples = []
 prefix = os.path.join(os.path.dirname(__file__), "examples")
@@ -52,7 +53,7 @@ def getOutput(y, type) :
     except Exception, why :
         return "ERROR:\n\n" + str(why)
 
-class MainHandler(webapp.RequestHandler):
+class MainHandler(webapp2.RequestHandler):
     def get(self):
         y = self.request.get("yaml", default_yaml)
         url = self.request.get("url")
@@ -62,7 +63,7 @@ class MainHandler(webapp.RequestHandler):
             except Exception:
                 pass
         type = self.request.get("type", "json")
-        
+
         output = getOutput(y, type)
         template_values = {}
         template_values['output'] = output
@@ -77,12 +78,12 @@ class MainHandler(webapp.RequestHandler):
     def post(self) :
         return self.get()
 
-class AjaxHandler(webapp.RequestHandler):
+class AjaxHandler(webapp2.RequestHandler):
     def get(self):
         y = self.request.get("yaml")
         type = self.request.get("type", "json")
         output = getOutput(y, type)
-        
+
         response = simplejson.dumps(output)
         cb = self.request.get("callback")
         if cb :
@@ -94,18 +95,12 @@ class AjaxHandler(webapp.RequestHandler):
     def post(self) :
         return self.get()
 
-class FaviconHandler(webapp.RequestHandler):
+class FaviconHandler(webapp2.RequestHandler):
     def get(self) :
         self.redirect("http://pyyaml.org/favicon.ico")
-        
-def main():
-  application = webapp.WSGIApplication([
-                                        ('/', MainHandler),
-                                        ('/ajax', AjaxHandler),
-                                        ('/favicon.ico', FaviconHandler),
-                                       ],
-                                       debug=True)
-  wsgiref.handlers.CGIHandler().run(application)
 
-if __name__ == '__main__':
-  main()
+app = webapp2.WSGIApplication([
+    ('/', MainHandler),
+    ('/ajax', AjaxHandler),
+    ('/favicon.ico', FaviconHandler),
+])
