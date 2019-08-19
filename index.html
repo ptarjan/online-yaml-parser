@@ -1,101 +1,100 @@
-<!DOCTYPE html !>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
     <title>Online YAML Parser</title>
     <style>
-body {
-  text-align : center;
-}
-#left {
-  float : left;
-  width : 500px;
-}
-#yaml {
-  width : 100%;
-  border : 1px solid #AAA;
-  min-height: 350px;
-  padding : 5px;
-  margin-bottom : 10px;
-}
-.content {
-  margin : 10px auto;
-  width : 1000px;
-}
-#output {
-  overflow-x : auto;
-}
-#output, #yaml {
-  font-family : monospace;
-}
-.help {
-  background : #D6D6D6;
-  margin : 5px;
-  padding : 5px;
-}
-#right {
-  float : right;
-}
-.examples, .code {
-  text-align : left;
-  padding : 30px;
-  margin-bottom: 10px;
-  border : 1px solid #AAA;
-  width : 420px;
-}
-.examples {
-  margin-top: 10px;
-}
-h1, h2 {
-  margin : 0px;
-}
-h1 {
-  border-bottom : #AAA solid 1px;
-  margin-bottom : 10px;
-}
-.header, .footer {
-  text-align : center;
-}
-.clear {
-  clear : both;
-}
-a:visited, a, a:hover {
-  color : #00c;
-}
-a {
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-#pay_my_bills {
-  margin-top: 10px;
-}
-#url_form input[name=url] {
-  width: 75%;
-}
-.error {
-  color: red;
-}
+      body {
+        text-align: center;
+      }
+      #left {
+        float: left;
+        width: 500px;
+      }
+      #yaml {
+        width: 100%;
+        border: 1px solid #aaa;
+        min-height: 350px;
+        padding: 5px;
+        margin-bottom: 10px;
+      }
+      .content {
+        margin: 10px auto;
+        width: 1000px;
+      }
+      #output {
+        overflow-x: auto;
+      }
+      #output, #yaml {
+        font-family: monospace;
+      }
+      .help {
+        background: #d6d6d6;
+        margin: 5px;
+        padding: 5px;
+      }
+      #right {
+        float: right;
+      }
+      .examples, .code {
+        text-align: left;
+        padding: 30px;
+        margin-bottom: 10px;
+        border: 1px solid #aaa;
+        width: 420px;
+      }
+      .examples {
+        margin-top: 10px;
+      }
+      h1, h2 {
+        margin: 0;
+      }
+      h1 {
+        border-bottom: 1px solid #aaa;
+        margin-bottom: 10px;
+      }
+      .header, .footer {
+        text-align: center;
+      }
+      .clear {
+        clear: both;
+      }
+      a:visited, a, a:hover {
+        color: #00c;
+      }
+      a {
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      #pay_my_bills {
+        margin-top: 10px;
+      }
+      #url_form input[name=url] {
+        width: 75%;
+      }
+      .error {
+        color: #f00;
+      }
     </style>
-<script type="text/javascript">
+    <script>
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-149816-8']);
+      _gaq.push(['_trackPageview']);
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-149816-8']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
 
   </head>
   <body>
     <div class="content">
       <div class="header">
-        <h1>Online <a href="http://yaml.org" target="_new">YAML</a> Parser</h1>
+        <h1>Online <a href="https://yaml.org/" rel="noopener" target="_blank">YAML</a> Parser</h1>
       </div>
       <div id="left">
         <form id="yaml_form" method="POST" action="/">
@@ -103,20 +102,20 @@ a:hover {
           <div>
             Output:
             <input type="radio" name="type" id="type_json" value="json"
-            {% ifequal type "json" %}checked="checked"{% endifequal %}
-            /><label for="type_json">json</label>
-            <input type="radio" name="type" id="type_python" value="python" 
-            {% ifequal type "python" %}checked="checked"{% endifequal %}
-            /><label for="type_python">python</label>
-            <input type="radio" name="type" id="type_canonical_yaml" value="canonical_yaml" 
-            {% ifequal type "canonical_yaml" %}checked="checked"{% endifequal %}
-            /><label for="type_canonical_yaml">canonical yaml</label>
+            {% ifequal type "json" %}checked="checked"{% endifequal %}>
+            <label for="type_json">json</label>
+            <input type="radio" name="type" id="type_python" value="python"
+            {% ifequal type "python" %}checked="checked"{% endifequal %}>
+            <label for="type_python">python</label>
+            <input type="radio" name="type" id="type_canonical_yaml" value="canonical_yaml"
+            {% ifequal type "canonical_yaml" %}checked="checked"{% endifequal %}>
+            <label for="type_canonical_yaml">canonical yaml</label>
             <a id="link" href="?yaml={{ yaml|urlencode }}&type={{ type|urlencode }}">
               Link to this page
             </a>
           </div>
           <div id="pay_my_bills">
-            <script type="text/javascript"><!--
+            <script><!--
               google_ad_client = "ca-pub-7342863608664054";
               /* online yaml parser banner */
               google_ad_slot = "1929248609";
@@ -124,14 +123,12 @@ a:hover {
               google_ad_height = 60;
               //-->
             </script>
-            <script type="text/javascript"
-              src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-            </script>
+            <script src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
           </div>
         </form>
         <form id="url_form" action="/">
-          <input name="url" value="{{ url|default:"http://" }}" />
-          <input type="submit" value="Validate URL" />
+          <input name="url" value="{{ url|default:"http://" }}">
+          <input type="submit" value="Validate URL">
         </form>
       </div>
       <div id="right">
@@ -140,7 +137,7 @@ a:hover {
           <pre id="output">{{ output|escape }}</pre>
         </div>
         <div class="examples">
-          <h2>Examples from <a href="http://www.yaml.org/spec/1.2/spec.html" target="_new">YAML 1.2 Spec</a></h2>
+          <h2>Examples from <a href="https://yaml.org/spec/1.2/spec.html" rel="noopener" target="_blank">YAML 1.2 Spec</a></h2>
           <ol id="examples_list">
           {% for example in examples %}
             <li><a href="?yaml={{ example|urlencode }}">{{ example|slice:"40"|escape }}...</a></li>
@@ -150,7 +147,7 @@ a:hover {
       </div>
       <div class="clear">
       <div class="footer">
-        Using <a href="http://pyyaml.org">pyyaml</a>. Created by <a href="http://paulisageek.com">Paul Tarjan</a>. <a href="http://github.com/ptarjan/online-yaml-parser/tree/master">Open source</a>.
+        Using <a href="https://pyyaml.org/">pyyaml</a>. Created by <a href="https://paultarjan.com/">Paul Tarjan</a>. <a href="https://github.com/ptarjan/online-yaml-parser">Open source</a>.
       </div>
     </div>
 
@@ -159,70 +156,69 @@ a:hover {
 <script src="js/autoresize.jquery.min.js"></script>
 <script>
 $(function() {
-
-var submit = function() {
-  $("#yaml_form").submit();
-  return false;
-}
-$('#yaml').keyup(function() {
-  $("#yaml_form").submit();
-});
-$('input:radio[name=type]').click(function() {
-  $("#yaml_form").submit();
-});
-
-$("#yaml_form").submit(function(ev) {
-  var inputData = {yaml: $("#yaml").val(), type: $('input:radio[name=type]:checked').val() };
-  $.ajax({
-    url: "/ajax?callback=?", 
-    data: inputData,
-    success: 
-      function(data) {
-        $("#output").text(data);
-        console.log(data);
-        if (data.match(/^ERROR/)) {
-          $("#output").wrapInner('<span class="error"/>');
-        }
-        $("#link").attr("href", "?" + $.param(inputData));
-      },
-    error: 
-      function() {
-        $("#output").text("An error occured. Try again? Or contact me.");
-      },
-    type: "POST",
-    dataType: "json",
+  var submit = function() {
+    $("#yaml_form").submit();
+    return false;
+  };
+  $('#yaml').keyup(function() {
+    $("#yaml_form").submit();
   });
-  return false;
-});
+  $('input:radio[name=type]').click(function() {
+    $("#yaml_form").submit();
+  });
 
-$("#examples_list a").click(function() {
-  $("#yaml").val(
-    urldecode($(this).attr("href").replace("?yaml=", ""))
-  );
-  $("#yaml_form").submit();
-  return false;
-});
+  $("#yaml_form").submit(function(ev) {
+    var inputData = {yaml: $("#yaml").val(), type: $('input:radio[name=type]:checked').val() };
+    $.ajax({
+      url: "/ajax?callback=?",
+      data: inputData,
+      success:
+        function(data) {
+          $("#output").text(data);
+          console.log(data);
+          if (data.match(/^ERROR/)) {
+            $("#output").wrapInner('<span class="error"/>');
+          }
+          $("#link").attr("href", "?" + $.param(inputData));
+        },
+      error:
+        function() {
+          $("#output").text("An error occured. Try again? Or contact me.");
+        },
+      type: "POST",
+      dataType: "json",
+    });
+    return false;
+  });
 
-$('textarea#yaml').autoResize({
-  // On resize:
-  onResize : function() {
-    $(this).css({opacity:0.8});
-  },
-  // After resize:
-  animateCallback : function() {
-    $(this).css({opacity:1});
-  },
-  // Quite slow animation:
-  animateDuration : 300,
-  // More extra space:
-  extraSpace : 40
-}).keydown();
+  $("#examples_list a").click(function() {
+    $("#yaml").val(
+      urldecode($(this).attr("href").replace("?yaml=", ""))
+    );
+    $("#yaml_form").submit();
+    return false;
+  });
+
+  $('textarea#yaml').autoResize({
+    // On resize:
+    onResize: function() {
+      $(this).css({opacity: 0.8});
+    },
+    // After resize:
+    animateCallback: function() {
+      $(this).css({opacity: 1});
+    },
+    // Quite slow animation:
+    animateDuration: 300,
+    // More extra space:
+    extraSpace: 40
+  }).keydown();
 
 });
 </script>
 
 <!-- Start of Woopra Code -->
-<script type="text/javascript">
+<script>
   var woo_settings = {idle_timeout:'300000', domain:'yaml-online-parser.appspot.com'};
   (function(){
     var wsc = document.createElement('script');

@@ -97,7 +97,7 @@ class AjaxHandler(webapp2.RequestHandler):
 
 class FaviconHandler(webapp2.RequestHandler):
     def get(self) :
-        self.redirect("http://pyyaml.org/favicon.ico")
+        self.redirect("https://pyyaml.org/favicon.ico")
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
