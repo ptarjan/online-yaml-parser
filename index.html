@@ -79,15 +79,13 @@
       }
     </style>
     <script>
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-149816-8']);
-      _gaq.push(['_trackPageview']);
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
+      ga('create', 'UA-149816-8', 'auto');
+      ga('send', 'pageview');
     </script>
 
   </head>
@@ -150,86 +148,87 @@
         Using <a href="https://pyyaml.org/">pyyaml</a>. Created by <a href="https://paultarjan.com/">Paul Tarjan</a>. <a href="https://github.com/ptarjan/online-yaml-parser">Open source</a>.
       </div>
     </div>
+  </div>
 
-<script src="js/jquery-1.6.1.min.js"></script>
-<script src="js/urldecode.js"></script>
-<script src="js/autoresize.jquery.min.js"></script>
-<script>
-$(function() {
-  var submit = function() {
-    $("#yaml_form").submit();
-    return false;
-  };
-  $('#yaml').keyup(function() {
-    $("#yaml_form").submit();
-  });
-  $('input:radio[name=type]').click(function() {
-    $("#yaml_form").submit();
-  });
-
-  $("#yaml_form").submit(function(ev) {
-    var inputData = {yaml: $("#yaml").val(), type: $('input:radio[name=type]:checked').val() };
-    $.ajax({
-      url: "/ajax?callback=?",
-      data: inputData,
-      success:
-        function(data) {
-          $("#output").text(data);
-          console.log(data);
-          if (data.match(/^ERROR/)) {
-            $("#output").wrapInner('<span class="error"/>');
-          }
-          $("#link").attr("href", "?" + $.param(inputData));
-        },
-      error:
-        function() {
-          $("#output").text("An error occured. Try again? Or contact me.");
-        },
-      type: "POST",
-      dataType: "json",
+  <script src="js/jquery-1.6.1.min.js"></script>
+  <script src="js/urldecode.js"></script>
+  <script src="js/autoresize.jquery.min.js"></script>
+  <script>
+  $(function() {
+    var submit = function() {
+      $("#yaml_form").submit();
+      return false;
+    };
+    $('#yaml').keyup(function() {
+      $("#yaml_form").submit();
     });
-    return false;
+    $('input:radio[name=type]').click(function() {
+      $("#yaml_form").submit();
+    });
+
+    $("#yaml_form").submit(function(ev) {
+      var inputData = {yaml: $("#yaml").val(), type: $('input:radio[name=type]:checked').val() };
+      $.ajax({
+        url: "/ajax?callback=?",
+        data: inputData,
+        success:
+          function(data) {
+            $("#output").text(data);
+            console.log(data);
+            if (data.match(/^ERROR/)) {
+              $("#output").wrapInner('<span class="error"/>');
+            }
+            $("#link").attr("href", "?" + $.param(inputData));
+          },
+        error:
+          function() {
+            $("#output").text("An error occured. Try again? Or contact me.");
+          },
+        type: "POST",
+        dataType: "json",
+      });
+      return false;
+    });
+
+    $("#examples_list a").click(function() {
+      $("#yaml").val(
+        urldecode($(this).attr("href").replace("?yaml=", ""))
+      );
+      $("#yaml_form").submit();
+      return false;
+    });
+
+    $('textarea#yaml').autoResize({
+      // On resize:
+      onResize: function() {
+        $(this).css({opacity: 0.8});
+      },
+      // After resize:
+      animateCallback: function() {
+        $(this).css({opacity: 1});
+      },
+      // Quite slow animation:
+      animateDuration: 300,
+      // More extra space:
+      extraSpace: 40
+    }).keydown();
+
   });
+  </script>
 
-  $("#examples_list a").click(function() {
-    $("#yaml").val(
-      urldecode($(this).attr("href").replace("?yaml=", ""))
-    );
-    $("#yaml_form").submit();
-    return false;
-  });
-
-  $('textarea#yaml').autoResize({
-    // On resize:
-    onResize: function() {
-      $(this).css({opacity: 0.8});
-    },
-    // After resize:
-    animateCallback: function() {
-      $(this).css({opacity: 1});
-    },
-    // Quite slow animation:
-    animateDuration: 300,
-    // More extra space:
-    extraSpace: 40
-  }).keydown();
-
-});
-</script>
-
-<!-- Start of Woopra Code -->
-<script>
-  var woo_settings = {idle_timeout:'300000', domain:'yaml-online-parser.appspot.com'};
-  (function(){
-    var wsc = document.createElement('script');
-    wsc.src = document.location.protocol+'//static.woopra.com/js/woopra.js';
-    wsc.type = 'text/javascript';
-    wsc.async = true;
-    var ssc = document.getElementsByTagName('script')[0];
-    ssc.parentNode.insertBefore(wsc, ssc);
-  })();
-</script>
-<!-- End of Woopra Code -->
+  <!-- Start of Woopra Code -->
+  <script>
+    var woo_settings = {idle_timeout:'300000', domain:'yaml-online-parser.appspot.com'};
+    (function(){
+      var wsc = document.createElement('script');
+      wsc.src = document.location.protocol+'//static.woopra.com/js/woopra.js';
+      wsc.type = 'text/javascript';
+      wsc.async = true;
+      var ssc = document.getElementsByTagName('script')[0];
+      ssc.parentNode.insertBefore(wsc, ssc);
+    })();
+  </script>
+  <!-- End of Woopra Code -->
 
   </body>
 </html>
