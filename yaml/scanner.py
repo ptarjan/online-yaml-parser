@@ -1306,7 +1306,7 @@ class Scanner(object):
                 self.forward(length)
                 raise ScannerError("while scanning a plain scalar", start_mark,
                     "found unexpected ':'", self.get_mark(),
-                    "Please check http://pyyaml.org/wiki/YAMLColonInFlowContext for details.")
+                    "Please check https://pyyaml.org/wiki/YAMLColonInFlowContext for details.")
             if length == 0:
                 break
             self.allow_simple_key = False
