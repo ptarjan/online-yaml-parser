@@ -85,9 +85,9 @@
       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
       ga('create', 'UA-149816-8', 'auto');
+      ga('set', 'anonymizeIp', true);
       ga('send', 'pageview');
     </script>
-
   </head>
   <body>
     <div class="content">
@@ -113,15 +113,14 @@
             </a>
           </div>
           <div id="pay_my_bills">
-            <script><!--
-              google_ad_client = "ca-pub-7342863608664054";
-              /* online yaml parser banner */
-              google_ad_slot = "1929248609";
-              google_ad_width = 468;
-              google_ad_height = 60;
-              //-->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle"
+              style="display:inline-block;width:468px;height:60px"
+              data-ad-client="ca-pub-7342863608664054"
+              data-ad-slot="1929248609"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
-            <script src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
           </div>
         </form>
         <form id="url_form" action="/">
@@ -167,23 +166,24 @@
     });
 
     $("#yaml_form").submit(function(ev) {
-      var inputData = {yaml: $("#yaml").val(), type: $('input:radio[name=type]:checked').val() };
+      var inputData = {
+        yaml: $("#yaml").val(),
+        type: $('input:radio[name=type]:checked').val()
+      };
       $.ajax({
         url: "/ajax?callback=?",
         data: inputData,
-        success:
-          function(data) {
-            $("#output").text(data);
-            console.log(data);
-            if (data.match(/^ERROR/)) {
-              $("#output").wrapInner('<span class="error"/>');
-            }
-            $("#link").attr("href", "?" + $.param(inputData));
-          },
-        error:
-          function() {
-            $("#output").text("An error occured. Try again? Or contact me.");
-          },
+        success: function(data) {
+          $("#output").text(data);
+          console.log(data);
+          if (data.match(/^ERROR/)) {
+            $("#output").wrapInner('<span class="error"/>');
+          }
+          $("#link").attr("href", "?" + $.param(inputData));
+        },
+        error: function() {
+          $("#output").text("An error occured. Try again? Or contact me.");
+        },
         type: "POST",
         dataType: "json",
       });
@@ -191,9 +191,7 @@
     });
 
     $("#examples_list a").click(function() {
-      $("#yaml").val(
-        urldecode($(this).attr("href").replace("?yaml=", ""))
-      );
+      $("#yaml").val(urldecode($(this).attr("href").replace("?yaml=", "")));
       $("#yaml_form").submit();
       return false;
     });
@@ -218,10 +216,13 @@
 
   <!-- Start of Woopra Code -->
   <script>
-    var woo_settings = {idle_timeout:'300000', domain:'yaml-online-parser.appspot.com'};
+    var woo_settings = {
+      idle_timeout: '300000',
+      domain: 'yaml-online-parser.appspot.com'
+    };
     (function(){
       var wsc = document.createElement('script');
-      wsc.src = document.location.protocol+'//static.woopra.com/js/woopra.js';
+      wsc.src = 'https://static.woopra.com/js/woopra.js';
       wsc.type = 'text/javascript';
       wsc.async = true;
       var ssc = document.getElementsByTagName('script')[0];
