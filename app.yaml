@@ -13,7 +13,7 @@ handlers:
 - url: .*
   script: main.app
 
-- url: ads.txt
+- url: /ads.txt
   static_files: ads.txt
   upload: ads.txt
 
