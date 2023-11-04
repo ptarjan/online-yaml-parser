@@ -13,6 +13,7 @@ handlers:
 - url: .*
   script: main.app
 
+# doesn't work (haven't really put effort into debugging why)
 - url: /ads.txt
   static_files: ads.txt
   upload: ads.txt
