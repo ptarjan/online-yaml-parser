@@ -127,6 +127,11 @@
           <input name="url" value="{{ url|default("http://") }}">
           <input type="submit" value="Validate URL">
         </form>
+        {% if url_error %}
+        <div class="error" style="margin-top: 10px; padding: 10px; border: 1px solid #f00; background: #fee;">
+          {{ url_error|escape }}
+        </div>
+        {% endif %}
       </div>
       <div id="right">
         <div class="code">
