@@ -100,13 +100,13 @@
           <div>
             Output:
             <input type="radio" name="type" id="type_json" value="json"
-            {% ifequal type "json" %}checked="checked"{% endifequal %}>
+            {% if type == "json" %}checked="checked"{% endif %}>
             <label for="type_json">json</label>
             <input type="radio" name="type" id="type_python" value="python"
-            {% ifequal type "python" %}checked="checked"{% endifequal %}>
+            {% if type == "python" %}checked="checked"{% endif %}>
             <label for="type_python">python</label>
             <input type="radio" name="type" id="type_canonical_yaml" value="canonical_yaml"
-            {% ifequal type "canonical_yaml" %}checked="checked"{% endifequal %}>
+            {% if type == "canonical_yaml" %}checked="checked"{% endif %}>
             <label for="type_canonical_yaml">canonical yaml</label>
             <a id="link" href="?yaml={{ yaml|urlencode }}&type={{ type|urlencode }}">
               Link to this page

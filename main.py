@@ -20,19 +20,25 @@ import os
 import yaml
 import simplejson
 import pprint
-import urllib2
+import urllib.request
 
 import wsgiref.handlers
 from django_jsonencoder import DjangoJSONEncoder
 
-from google.appengine.ext.webapp import template
+from jinja2 import Environment, FileSystemLoader
 
 import webapp2
+
+# Set up Jinja2 environment
+jinja_env = Environment(
+    loader=FileSystemLoader(os.path.dirname(__file__))
+)
 
 examples = []
 prefix = os.path.join(os.path.dirname(__file__), "examples")
 for ex in sorted(os.listdir(prefix)) :
-    examples.append(file(os.path.join(prefix, ex)).read())
+    with open(os.path.join(prefix, ex)) as f:
+        examples.append(f.read())
 
 default_yaml = """
 - just: write some
@@ -50,7 +56,7 @@ def getOutput(y, type) :
             return yaml.dump(objects, canonical=True)
         else : # type == "json"
             return simplejson.dumps(objects, cls=DjangoJSONEncoder, indent=2)
-    except Exception, why :
+    except Exception as why :
         return "ERROR:\n\n" + str(why)
 
 class MainHandler(webapp2.RequestHandler):
@@ -59,7 +65,7 @@ class MainHandler(webapp2.RequestHandler):
         url = self.request.get("url")
         if url:
             try:
-                y = urllib2.urlopen(url).read()
+                y = urllib.request.urlopen(url).read()
             except Exception:
                 pass
         type = self.request.get("type", "json")
@@ -72,8 +78,8 @@ class MainHandler(webapp2.RequestHandler):
         template_values['type'] = type
         template_values['url'] = url
 
-        path = os.path.join(os.path.dirname(__file__), 'index.html')
-        self.response.out.write(template.render(path, template_values))
+        template = jinja_env.get_template('index.html')
+        self.response.out.write(template.render(template_values))
 
     def post(self) :
         return self.get()
