@@ -62,14 +62,15 @@ class MainHandler(webapp2.RequestHandler):
     def get(self):
         y = self.request.get("yaml", default_yaml)
         url = self.request.get("url")
+        url_error = None
         if url:
             try:
                 response = urllib.request.urlopen(url)
                 y = response.read()
                 if isinstance(y, bytes):
                     y = y.decode('utf-8')
-            except Exception:
-                pass
+            except Exception as e:
+                url_error = f"Failed to download URL: {str(e)}"
         type = self.request.get("type", "json")
 
         output = getOutput(y, type)
@@ -79,6 +80,7 @@ class MainHandler(webapp2.RequestHandler):
         template_values['examples'] = examples
         template_values['type'] = type
         template_values['url'] = url
+        template_values['url_error'] = url_error
 
         template = jinja_env.get_template('index.html')
         self.response.write(template.render(template_values))
