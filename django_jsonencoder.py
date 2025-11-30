@@ -1,9 +1,9 @@
-import simplejson
+import json
 import datetime
 import datetime_safe
 import decimal
 
-class DjangoJSONEncoder(simplejson.JSONEncoder):
+class DjangoJSONEncoder(json.JSONEncoder):
     """
     JSONEncoder subclass that knows how to encode date/time and decimal types.
     """
