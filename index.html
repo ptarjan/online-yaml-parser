@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <title>Online YAML Parser</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material.min.css">
     <style>
       body {
         text-align: center;
@@ -173,7 +172,7 @@
     // Initialize CodeMirror
     var editor = CodeMirror.fromTextArea(document.getElementById("yaml"), {
       mode: "yaml",
-      theme: "material",
+      theme: "default",
       lineNumbers: true,
       lineWrapping: true,
       indentUnit: 2,
