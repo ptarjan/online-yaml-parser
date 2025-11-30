@@ -124,7 +124,7 @@
           </div>
         </form>
         <form id="url_form" action="/">
-          <input name="url" value="{{ url|default:"http://" }}">
+          <input name="url" value="{{ url|default("http://") }}">
           <input type="submit" value="Validate URL">
         </form>
       </div>
@@ -137,7 +137,7 @@
           <h2>Examples from <a href="https://yaml.org/spec/1.2/spec.html" rel="noopener" target="_blank">YAML 1.2 Spec</a></h2>
           <ol id="examples_list">
           {% for example in examples %}
-            <li><a href="?yaml={{ example|urlencode }}">{{ example|slice:"40"|escape }}...</a></li>
+            <li><a href="?yaml={{ example|urlencode }}">{{ example[:40]|escape }}...</a></li>
           {% endfor %}
           </ol>
         </div>
