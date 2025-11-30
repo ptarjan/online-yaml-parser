@@ -5,17 +5,15 @@ handlers:
 - url: /js
   static_dir: js
 
-#- url: /examples
-#  static_dir: examples
-#  mime_type: text/plain
-
-- url: .*
-  script: main.app
-
-# doesn't work (haven't really put effort into debugging why)
 - url: /ads.txt
   static_files: ads.txt
   upload: ads.txt
 
+- url: .*
+  script: auto
+
 automatic_scaling:
   max_instances: 1
+
+env_variables:
+  PYTHONUNBUFFERED: "1"
