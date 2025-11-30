@@ -22,7 +22,6 @@
       .CodeMirror {
         border: 1px solid #aaa;
         height: auto;
-        min-height: 350px;
         margin-bottom: 10px;
         font-family: monospace;
         text-align: left;
@@ -185,6 +184,9 @@
         }
       }
     });
+
+    // Set minimum height using CodeMirror API
+    editor.setSize(null, "350px");
 
     var submit = function() {
       $("#yaml_form").submit();
