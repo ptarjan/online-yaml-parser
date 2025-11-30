@@ -29,7 +29,8 @@ import webapp2
 
 # Set up Jinja2 environment
 jinja_env = Environment(
-    loader=FileSystemLoader(os.path.dirname(__file__))
+    loader=FileSystemLoader(os.path.dirname(__file__)),
+    autoescape=True
 )
 
 examples = []
