@@ -21,7 +21,7 @@
       }
       .CodeMirror {
         border: 1px solid #aaa;
-        min-height: 350px;
+        height: auto;
         margin-bottom: 10px;
         font-family: monospace;
         text-align: left;
@@ -178,6 +178,7 @@
       indentUnit: 2,
       tabSize: 2,
       indentWithTabs: false,
+      viewportMargin: Infinity,
       extraKeys: {
         Tab: function(cm) {
           cm.replaceSelection("  ", "end");
