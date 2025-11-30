@@ -20,12 +20,27 @@ import json
 import yaml
 import pprint
 import urllib.request
-
-from django_jsonencoder import DjangoJSONEncoder
+import datetime
+import decimal
 
 from jinja2 import Environment, FileSystemLoader
 
 import webapp2
+
+
+class CustomJSONEncoder(json.JSONEncoder):
+    """JSONEncoder subclass that handles date/time and decimal types."""
+
+    def default(self, o):
+        if isinstance(o, datetime.datetime):
+            return o.strftime("%Y-%m-%d %H:%M:%S")
+        elif isinstance(o, datetime.date):
+            return o.strftime("%Y-%m-%d")
+        elif isinstance(o, datetime.time):
+            return o.strftime("%H:%M:%S")
+        elif isinstance(o, decimal.Decimal):
+            return str(o)
+        return super().default(o)
 
 # Set up Jinja2 environment
 jinja_env = Environment(
@@ -54,7 +69,7 @@ def getOutput(y, type):
         elif type == "canonical_yaml":
             return yaml.dump(objects, canonical=True)
         else:  # type == "json"
-            return json.dumps(objects, cls=DjangoJSONEncoder, indent=2)
+            return json.dumps(objects, cls=CustomJSONEncoder, indent=2)
     except Exception as why:
         return "ERROR:\n\n" + str(why)
 
