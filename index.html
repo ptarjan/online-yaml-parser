@@ -2,15 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online YAML Parser</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
     <style>
       body {
         text-align: center;
+        margin: 0;
+        padding: 0;
       }
       #left {
         float: left;
-        width: 500px;
+        width: 48%;
+        margin-right: 2%;
       }
       #yaml {
         width: 100%;
@@ -18,6 +22,7 @@
         min-height: 350px;
         padding: 5px;
         margin-bottom: 10px;
+        box-sizing: border-box;
       }
       .CodeMirror {
         border: 1px solid #aaa;
@@ -28,7 +33,9 @@
       }
       .content {
         margin: 10px auto;
-        width: 1000px;
+        max-width: 1000px;
+        padding: 0 15px;
+        box-sizing: border-box;
       }
       #output {
         display: none;
@@ -40,6 +47,7 @@
       }
       #right {
         float: right;
+        width: 48%;
       }
       .examples {
         text-align: left;
@@ -47,7 +55,7 @@
         clear: both;
       }
       .code {
-        width: 420px;
+        width: 100%;
       }
       h1, h2 {
         margin: 0;
@@ -76,6 +84,8 @@
       }
       #url_form input[name=url] {
         width: 75%;
+        max-width: 400px;
+        box-sizing: border-box;
       }
       .error {
         color: #f00;
@@ -87,6 +97,62 @@
       }
       .CodeMirror-readonly .CodeMirror-cursor {
         display: none;
+      }
+
+      /* Mobile-friendly styles */
+      @media (max-width: 768px) {
+        #left, #right {
+          float: none;
+          width: 100%;
+          margin-right: 0;
+        }
+
+        .content {
+          padding: 0 10px;
+        }
+
+        .examples {
+          padding: 15px 10px;
+        }
+
+        h1 {
+          font-size: 1.5em;
+        }
+
+        h2 {
+          font-size: 1.2em;
+        }
+
+        #url_form input[name=url] {
+          width: 65%;
+        }
+
+        #pay_my_bills {
+          overflow: hidden;
+        }
+
+        #pay_my_bills ins {
+          max-width: 100%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 1.3em;
+        }
+
+        .examples {
+          padding: 10px 5px;
+        }
+
+        #url_form input[name=url] {
+          width: 100%;
+          margin-bottom: 5px;
+        }
+
+        #url_form input[type=submit] {
+          width: 100%;
+        }
       }
     </style>
     <script>
@@ -127,7 +193,7 @@
           <div id="pay_my_bills">
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <ins class="adsbygoogle"
-              style="display:inline-block;width:468px;height:60px"
+              style="display:block;max-width:468px;width:100%;height:60px;margin:0 auto;"
               data-ad-client="ca-pub-7342863608664054"
               data-ad-slot="1929248609"></ins>
             <script>
