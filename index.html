@@ -43,13 +43,7 @@
       }
       .examples, .code {
         text-align: left;
-        padding: 30px;
-        margin-bottom: 10px;
-        border: 1px solid #aaa;
         width: 420px;
-      }
-      .examples {
-        margin-top: 10px;
       }
       h1, h2 {
         margin: 0;
@@ -100,6 +94,7 @@
         <h1>Online <a href="https://yaml.org/" rel="noopener" target="_blank">YAML</a> Parser</h1>
       </div>
       <div id="left">
+        <h2>Input</h2>
         <form id="yaml_form" method="POST" action="/">
           <textarea id="yaml" class="yaml" name="yaml">{{ yaml }}</textarea>
           <div>
@@ -143,14 +138,14 @@
           <h2>Output</h2>
           <textarea id="output">{{ output|escape }}</textarea>
         </div>
-        <div class="examples">
-          <h2>Examples from <a href="https://yaml.org/spec/1.2/spec.html" rel="noopener" target="_blank">YAML 1.2 Spec</a></h2>
-          <ol id="examples_list">
-          {% for example in examples %}
-            <li><a href="?yaml={{ example|urlencode }}">{{ example[:40]|escape }}...</a></li>
-          {% endfor %}
-          </ol>
-        </div>
+      </div>
+      <div class="examples">
+        <h2>Examples from <a href="https://yaml.org/spec/1.2/spec.html" rel="noopener" target="_blank">YAML 1.2 Spec</a></h2>
+        <ol id="examples_list">
+        {% for example in examples %}
+          <li><a href="?yaml={{ example|urlencode }}">{{ example[:40]|escape }}...</a></li>
+        {% endfor %}
+        </ol>
       </div>
       <div class="clear">
       <div class="footer">
