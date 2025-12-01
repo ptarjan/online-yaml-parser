@@ -31,10 +31,7 @@
         width: 1000px;
       }
       #output {
-        overflow-x: auto;
-      }
-      #output, #yaml {
-        font-family: monospace;
+        display: none;
       }
       .help {
         background: #d6d6d6;
@@ -144,7 +141,7 @@
       <div id="right">
         <div class="code">
           <h2>Output</h2>
-          <pre id="output">{{ output|escape }}</pre>
+          <textarea id="output">{{ output|escape }}</textarea>
         </div>
         <div class="examples">
           <h2>Examples from <a href="https://yaml.org/spec/1.2/spec.html" rel="noopener" target="_blank">YAML 1.2 Spec</a></h2>
@@ -165,10 +162,12 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/yaml/yaml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
   <script src="js/urldecode.js"></script>
   <script>
   $(function() {
-    // Initialize CodeMirror
+    // Initialize CodeMirror for input
     var editor = CodeMirror.fromTextArea(document.getElementById("yaml"), {
       mode: "yaml",
       theme: "default",
@@ -187,6 +186,16 @@
 
     // Set minimum height using CodeMirror API
     editor.setSize(null, "350px");
+
+    // Initialize CodeMirror for output
+    var outputEditor = CodeMirror.fromTextArea(document.getElementById("output"), {
+      mode: "javascript",
+      theme: "default",
+      lineNumbers: true,
+      lineWrapping: true,
+      readOnly: true,
+      viewportMargin: Infinity
+    });
 
     var submit = function() {
       $("#yaml_form").submit();
@@ -213,15 +222,22 @@
         url: "/ajax?callback=?",
         data: inputData,
         success: function(data) {
-          $("#output").text(data);
+          outputEditor.setValue(data);
           console.log(data);
-          if (data.match(/^ERROR/)) {
-            $("#output").wrapInner('<span class="error"/>');
+
+          // Set the appropriate mode based on output type
+          var mode = "javascript"; // default for JSON
+          if (inputData.type === "python") {
+            mode = "python";
+          } else if (inputData.type === "canonical_yaml") {
+            mode = "yaml";
           }
+          outputEditor.setOption("mode", mode);
+
           $("#link").attr("href", "?" + $.param(inputData));
         },
         error: function() {
-          $("#output").text("An error occured. Try again? Or contact me.");
+          outputEditor.setValue("An error occured. Try again? Or contact me.");
         },
         type: "POST",
         dataType: "json",
