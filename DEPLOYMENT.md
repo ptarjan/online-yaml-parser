@@ -97,6 +97,64 @@ To use a custom domain:
 2. Follow the wizard to add and verify your domain
 3. Update your DNS records as instructed
 
+## Reducing Artifact Registry Storage Costs
+
+App Engine Python 3 deployments create container images stored in Artifact Registry, which can accumulate storage costs over time.
+
+### Delete Old App Versions
+
+Old app versions keep their container images. Delete versions you no longer need:
+```bash
+# List all versions
+gcloud app versions list
+
+# Delete old versions (keep only the current serving version)
+gcloud app versions delete [VERSION_ID] [VERSION_ID] ...
+```
+
+### Clean Up Artifact Registry Images
+
+Delete old container images directly:
+```bash
+# List images in Artifact Registry
+gcloud artifacts docker images list us-docker.pkg.dev/[PROJECT_ID]/cloud-run-source-deploy
+
+# Delete specific images
+gcloud artifacts docker images delete us-docker.pkg.dev/[PROJECT_ID]/cloud-run-source-deploy/[IMAGE_NAME]@[DIGEST] --delete-tags
+```
+
+### Set Up Automatic Cleanup Policy
+
+Create a cleanup policy to automatically delete old images:
+```bash
+gcloud artifacts repositories set-cleanup-policies cloud-run-source-deploy \
+  --project=[PROJECT_ID] \
+  --location=us \
+  --policy=cleanup-policy.json
+```
+
+Create `cleanup-policy.json`:
+```json
+[
+  {
+    "name": "delete-old-images",
+    "action": {"type": "Delete"},
+    "condition": {
+      "olderThan": "604800s"
+    }
+  }
+]
+```
+This deletes images older than 7 days (604800 seconds).
+
+### Disable Artifact Registry (if not deploying)
+
+If you won't be deploying new versions, you can disable the Artifact Registry API to prevent any future charges:
+```bash
+gcloud services disable artifactregistry.googleapis.com --force
+```
+**Note:** You'll need to re-enable this API before your next deployment.
+
 ## Support
 
 - Google Cloud Documentation: https://cloud.google.com/appengine/docs/standard/python3
